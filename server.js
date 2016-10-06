@@ -7,7 +7,12 @@ app.get("/", function(req, res) {
 });
 
 app.get("/search/:url", function(req, res) {
-	var searchUrl = "https://www.googleapis.com/customsearch/v1?q=" + req.params.url + "&cx=003304933768532957899:opx7yx62ybk&key=AIzaSyDWuYmVM6ZgUWtdg_rIJC1pDcEx4Uldlrg"
+	if (req.query.offset) {
+		var offset = req.query.offset;
+	} else {
+		var offset = 1;
+	}
+	var searchUrl = "https://www.googleapis.com/customsearch/v1?q=" + req.params.url + "&cx=003304933768532957899:opx7yx62ybk&start=" + offset + "&key=AIzaSyDWuYmVM6ZgUWtdg_rIJC1pDcEx4Uldlrg"
 	request(searchUrl, function(err, response, body) {
 		var responseBody = JSON.parse(body);
 		var returnedBody = [];
