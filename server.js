@@ -1,6 +1,10 @@
 var express = require("express");
 var request = require("request");
+var mongodb = require("mongodb");
 var app = express();
+
+var MongoClient = mongodb.MongoClient;
+var mongoUrl = process.env.SEARCH_HISTORY;
 
 app.get("/", function(req, res) {
 	res.send("Enter search query in the address bar.");
@@ -16,7 +20,9 @@ app.get("/search/:url", function(req, res) {
 	request(searchUrl, function(err, response, body) {
 		var responseBody = JSON.parse(body);
 		var returnedBody = [];
+		var date = new Date();
 		createResponse(res, responseBody, returnedBody);
+		saveToMongo(req.params.url, date.toString());
 	});
 })
 
@@ -42,9 +48,25 @@ function createResponse(res, responseBody, returnedBody) {
 	res.end();
 }
 
+function saveToMongo(itemSearched, date) {
+	MongoClient.connect(mongoUrl, function(err, db) {
+		if (err) {
+			console.log("Error connecting to database: " + err);
+		} else {
+			console.log("connection established");
+			var searchedItems = db.collection("searched_items");
+			searchedItems.insert({
+				"item searched": itemSearched,
+				"time searched": date
+			});
+		}
+	});
+}
+
 // port 3000 used for localhost during development.
 var port = Number(process.env.PORT || 3000)
 app.listen(port);
 
 /* add index.html for root
 add time of search */
+
