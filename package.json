@@ -19,6 +19,7 @@
   "homepage": "https://github.com/amashamdan/image-search-api#readme",
   "dependencies": {
     "express": "^4.14.0",
+    "mongodb": "^2.2.10",
     "request": "^2.75.0"
   }
 }
