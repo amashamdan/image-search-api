@@ -5,6 +5,7 @@ var app = express();
 
 var MongoClient = mongodb.MongoClient;
 var mongoUrl = process.env.SEARCH_HISTORY;
+var returnedBody;
 
 app.get("/", function(req, res) {
 	res.send("Enter search query in the address bar.");
@@ -19,14 +20,19 @@ app.get("/search/:url", function(req, res) {
 	var searchUrl = "https://www.googleapis.com/customsearch/v1?q=" + req.params.url + "&cx=003304933768532957899:opx7yx62ybk&start=" + offset + "&key=AIzaSyDWuYmVM6ZgUWtdg_rIJC1pDcEx4Uldlrg"
 	request(searchUrl, function(err, response, body) {
 		var responseBody = JSON.parse(body);
-		var returnedBody = [];
+		returnedBody = [];
 		var date = new Date();
 		createResponse(res, responseBody, returnedBody);
-		saveToMongo(req.params.url, date.toString());
+		connectToMongo("save", res, req.params.url, date.toString());
 	});
-})
+});
 
-function createResponse(res, responseBody, returnedBody) {
+app.get("/history", function(req, res) {
+	returnedBody = [];
+	connectToMongo("load", res);
+});
+
+function createResponse(res, responseBody) {
 	for (var item in responseBody.items) {
 		var resObject = {};
 		if (responseBody.items[item].pagemap.cse_image) {
@@ -48,17 +54,24 @@ function createResponse(res, responseBody, returnedBody) {
 	res.end();
 }
 
-function saveToMongo(itemSearched, date) {
+function connectToMongo(status, res, itemSearched, date) {
 	MongoClient.connect(mongoUrl, function(err, db) {
 		if (err) {
 			console.log("Error connecting to database: " + err);
 		} else {
 			console.log("connection established");
 			var searchedItems = db.collection("searched_items");
-			searchedItems.insert({
-				"item searched": itemSearched,
-				"time searched": date
-			});
+			if (status == "save") {
+				searchedItems.insert({
+					"item searched": itemSearched,
+					"time searched": date
+				});
+			} else if (status == "load") {
+				searchedItems.find({}, {"_id": false}).sort({"time searched": -1}).limit(10).toArray(function(err, result) {
+					res.send(result);
+					res.end();
+				})
+			}
 		}
 	});
 }
