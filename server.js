@@ -8,7 +8,7 @@ var mongoUrl = process.env.SEARCH_HISTORY;
 var returnedBody;
 
 app.get("/", function(req, res) {
-	res.send("Enter search query in the address bar.");
+	res.sendFile(__dirname + "/index.html");
 });
 
 app.get("/search/:url", function(req, res) {
@@ -79,7 +79,3 @@ function connectToMongo(status, res, itemSearched, date) {
 // port 3000 used for localhost during development.
 var port = Number(process.env.PORT || 3000)
 app.listen(port);
-
-/* add index.html for root
-add time of search */
-
