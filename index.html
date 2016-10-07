@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Image Search Abstraction Layer</title>
+	<style>
+		.container {
+			margin: 0 auto;
+			width: 100%;
+			max-width: 900px;
+			font-family: 'Raleway', sans-serif;
+			font-size: 0.8em;
+			background-color: #AE3C3C;
+			color: white;
+			border-radius: 20px;
+			padding: 20px;
+		}
+		.footer {
+			color: gray;
+			font-size: 0.75em;
+			font-family: 'Raleway', sans-serif;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h3>Image Search Abstraction Layer</h3>
+		<h4>The fourth Free Code Camp back end developement project.</h4>
+		<div>
+			<ul>
+				<li>In this application, the user can get the image URL, thumbnail URL, alt text and page url for a set of images relating to a given search string.</li>
+				<li>The can paginate through the responses by adding a ?offset parameter to the URL.</li>
+				<li>The can get a list of the ten most recently submitted search strings.</li>
+			</ul>
+			<h4>Examples</h4>
+			<p>To search for an item (soccer for example), add '/search/soccer' after this page's URL:</p>
+			<code>https://imagesearch-api.herokuapp.com/search/soccer</code><br/><br/>
+			<p>For pagination, the user can set an offset in the results. An offset of 6 will display results starting from result 6 (will skip first 5). Add '?offset=6' at the end of the URL:</p>
+			<code>https://imagesearch-api.herokuapp.com/search/soccer?offset=6</code><br/><br/>
+			<p>To view a list of the ten most recent search entries, add '/history' at the end of this page's URL:</p>
+			<code>https://imagesearch-api.herokuapp.com/history</code><br/>
+		</div>
+		</div>
+		<hr/>
+		<div class="footer">
+			<div class="author">
+				<p>Page by Amer Hamdan (email:<a href="mailto:amashamdan@gmail.com"> amashamdan@gmail.com</a>)</p>
+				<p>Visit my pages:</p>
+				<ul class="pages">
+					<li><a href="http://amashamdan.github.io/P1-portfolio/" target="blank">Portfolio</a></li>
+					<li><a href="https://github.com/amashamdan" target="blank">Github</a></li>
+					<li><a href="http://codepen.io/amashamdan/" target="blank">CodePen</a></li>
+					<li><a href="https://www.linkedin.com/in/amerhamdan" target="blank">Linkedin</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
