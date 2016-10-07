@@ -67,7 +67,7 @@ function connectToMongo(status, res, itemSearched, date) {
 					"time searched": date
 				});
 			} else if (status == "load") {
-				searchedItems.find({}, {"_id": false}).sort({"time searched": -1}).limit(10).toArray(function(err, result) {
+				searchedItems.find({}, {"_id": false}).sort({"_id": -1}).limit(10).toArray(function(err, result) {
 					res.send(result);
 					res.end();
 				})
